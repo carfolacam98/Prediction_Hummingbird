@@ -12,12 +12,14 @@ Para ejecutar la aplicación, necesitas tener Docker instalado en tu máquina. N
 
 ## Modo de Uso
 
-1. **Construir el Contenedor Docker**
+ ### Construir el Contenedor Docker
+1. **Localmente**
 
    Si cumples los requisitos puedes situarte en la raiz del proyecto y construye la imagen Docker con el siguiente comando:
 
    ```bash
    docker build -t colibri-predictor .
+   ```
 2. **Ejecutar el Contenedor**
 
     Una vez que la imagen esté construida, ejecuta el contenedor en el puerto 5000 con el siguiente comando:
@@ -25,6 +27,15 @@ Para ejecutar la aplicación, necesitas tener Docker instalado en tu máquina. N
     ```bash
     docker run -d -p 5000:5000 --name nombre-del-contenedor colibri-predictor
    ```
+### Usar la Imagen Docker desde Docker Hub
+
+Si no deseas construir la imagen localmente, puedes usar la imagen preconstruida disponible en Docker Hub. Sigue los siguientes pasos:
+
+1. **Descargar la Imagen desde Docker Hub:**
+
+   ```bash
+   docker pull lauracamuao/colibri-predictor:latest
+
 ## Interacción con la Aplicación
 
 1. **Subir Imagen:**
