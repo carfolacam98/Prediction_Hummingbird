@@ -14,9 +14,6 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-image: url("/static/canva.png");
-            background-size: cover;
-            background-position: center;
         }
         .container {
             text-align: center;
@@ -24,6 +21,11 @@
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-size: cover;
+            background-position: center;
+            width: 80%;
+            max-width: 600px;
+            min-height: 400px;
         }
         h1 {
             margin-bottom: 20px;
@@ -64,28 +66,49 @@
             border-radius: 10px;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
         }
+        .hidden {
+            display: none;
+        }
+        .reset-button {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .reset-button:hover {
+            background-color: #e53935;
+        }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="container" id="container">
         <h1>Clasificador de Colibríes</h1>
-        <p>Sube una imagen de un colibrí para identificar su especie:</p>
 
-        <form action="/predict" method="post" enctype="multipart/form-data">
+  <div id="form">
+      <p>Sube una imagen de un colibrí para identificar su especie:</p>
+      <form action="/predict"  method="post" enctype="multipart/form-data">
             <input type="file" name="file" accept="image/*" required>
             <input type="submit" value="Clasificar">
-        </form>
+        </form></div>
+
 
         <div id="result"></div>
 
         <!-- Muestra imágenes representativas de las dos especies -->
-        <div>
+        <div id="species-images">
             <h3>Colibríes disponibles para clasificación:</h3>
-            <img src="/Colibrí%20picoespada%20(Ensifera%20ensifera).png" alt="Colibrí Pico Espada" class="species-image">
-            <img src="/Colibrí%20Inca%20ventrivioleta%20(Coeligena%20helianthea).png" alt="Colibrí Ventrivioleta" class="species-image">
+            <img src="/static/picoespada.png" alt="Colibrí Pico Espada" class="species-image">
+            <img src="/static/ventrivioleta.png" alt="Colibrí Ventrivioleta" class="species-image">
         </div>
 
         <img id="colibriImage" src="#" alt="" style="display: none;">
+
+        <!-- Botón para intentar una nueva clasificación -->
+        <button id="resetButton" class="reset-button hidden">Intentar nueva clasificación</button>
     </div>
 
     <script>
@@ -99,17 +122,38 @@
         .then(response => response.json())
         .then(data => {
             const resultDiv = document.getElementById('result');
+            const container = document.getElementById('container');
             const colibriImage = document.getElementById('colibriImage');
-            resultDiv.innerText = 'Etiqueta predicha: ' + (data.label || 'Error al procesar la imagen') +
-                ', Probabilidad: ' + (data.probability *100 || 'N/A') +"%";
+            const speciesImagesDiv = document.getElementById('species-images');
+            const resetButton = document.getElementById('resetButton');
+            const formularito =document.getElementById('form');
+
+            const label = data.label || 'Error';
+            const probability = data.probability || 'N/A';
+
+            resultDiv.innerText = 'Etiqueta predicha: ' + label + ', Probabilidad: ' + probability;
+
+
+            container.style.backgroundImage = `url("/static/${label}.png")`;
+
 
             const file = formData.get('file');
             colibriImage.src = URL.createObjectURL(file);
             colibriImage.style.display = 'block';
+
+            speciesImagesDiv.classList.add('hidden');
+            formularito.classList.add('hidden')
+
+
+            resetButton.classList.remove('hidden');
         })
         .catch(error => {
             document.getElementById('result').innerText = 'Error al procesar la imagen';
         });
+    });
+
+    document.getElementById('resetButton').addEventListener('click', function() {
+        location.reload();
     });
     </script>
 </body>
