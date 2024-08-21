@@ -6,7 +6,7 @@
     <title>Clasificador de Colibríes</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: Helvetica, Arial, sans-serif;
             margin: 0;
             padding: 0;
             background-color: #f4f4f4;
@@ -14,28 +14,29 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
+            background-image: url('/static/canva.png');
+            background-size: cover;
+            background-position: center;
         }
         .container {
             text-align: center;
-            background-color: rgba(255, 255, 255, 0.8);
+            background-color: rgba(255, 255, 255, 0); /* Opacidad de 0 para el fondo del contenedor */
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            background-size: cover;
-            background-position: center;
             width: 80%;
             max-width: 600px;
             min-height: 400px;
         }
-        h1 {
-            margin-bottom: 20px;
+        p {
+            color: #471823; /* Color del texto */
         }
         input[type="file"] {
             margin-bottom: 20px;
         }
         input[type="submit"] {
-            background-color: #4CAF50;
-            color: white;
+            background-color: #945C65;
+            color: white; /* Color del texto en el botón */
             border: none;
             padding: 10px 20px;
             text-align: center;
@@ -46,12 +47,13 @@
             cursor: pointer;
         }
         input[type="submit"]:hover {
-            background-color: #45a049;
+            background-color: #8a4a4d; /* Color ligeramente más oscuro al pasar el cursor */
         }
         #result {
             margin-top: 20px;
             font-size: 18px;
             font-weight: bold;
+            color: #471823; /* Color del texto */
         }
         img {
             max-width: 100%;
@@ -60,18 +62,12 @@
             border-radius: 5px;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
         }
-        .species-image {
-            width: 200px;
-            margin: 10px;
-            border-radius: 10px;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-        }
         .hidden {
             display: none;
         }
         .reset-button {
-            background-color: #f44336;
-            color: white;
+            background-color: #945C65;
+            color: white; /* Color del texto en el botón */
             border: none;
             padding: 10px 20px;
             font-size: 16px;
@@ -80,81 +76,76 @@
             margin-top: 20px;
         }
         .reset-button:hover {
-            background-color: #e53935;
+            background-color: #8a4a4d; /* Color ligeramente más oscuro al pasar el cursor */
         }
     </style>
 </head>
 <body>
     <div class="container" id="container">
-        <h1>Clasificador de Colibríes</h1>
-
-  <div id="form">
-      <p>Sube una imagen de un colibrí para identificar su especie:</p>
-      <form action="/predict"  method="post" enctype="multipart/form-data">
-            <input type="file" name="file" accept="image/*" required>
-            <input type="submit" value="Clasificar">
-        </form></div>
-
-
-        <div id="result"></div>
-
-        <!-- Muestra imágenes representativas de las dos especies -->
-        <div id="species-images">
-            <h3>Colibríes disponibles para clasificación:</h3>
-            <img src="/static/picoespada.png" alt="Colibrí Pico Espada" class="species-image">
-            <img src="/static/ventrivioleta.png" alt="Colibrí Ventrivioleta" class="species-image">
+        <div id="form">
+            <p>Sube una imagen de un colibrí para identificar su especie:</p>
+            <form id="upload-form" action="/predict" method="post" enctype="multipart/form-data">
+                <input type="file" name="file" accept="image/*" required>
+                <input type="submit" value="Clasificar">
+            </form>
         </div>
-
-        <img id="colibriImage" src="#" alt="" style="display: none;">
-
-        <!-- Botón para intentar una nueva clasificación -->
-        <button id="resetButton" class="reset-button hidden">Intentar nueva clasificación</button>
+        <div id="result">
+            <!-- Aquí se mostrará el resultado de la predicción -->
+        </div>
+        <img id="colibriImage" src="#" alt="Imagen del Colibrí" style="display: none;">
+        <button id="resetButton" class="reset-button hidden">Regresar</button>
     </div>
 
     <script>
-    document.querySelector('form').addEventListener('submit', function(event) {
-        event.preventDefault();
-        const formData = new FormData(this);
-        fetch('/predict', {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            const resultDiv = document.getElementById('result');
-            const container = document.getElementById('container');
-            const colibriImage = document.getElementById('colibriImage');
-            const speciesImagesDiv = document.getElementById('species-images');
-            const resetButton = document.getElementById('resetButton');
-            const formularito =document.getElementById('form');
+        document.querySelector('form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = new FormData(this);
 
-            const label = data.label || 'Error';
-            const probability = data.probability || 'N/A';
+            fetch('/predict', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                const resultDiv = document.getElementById('result');
+                const colibriImage = document.getElementById('colibriImage');
+                const resetButton = document.getElementById('resetButton');
+                const formDiv = document.getElementById('form');
 
-            resultDiv.innerText = 'Etiqueta predicha: ' + label + ', Probabilidad: ' + probability;
+                // Cambiar el fondo a prediccion.png
+                const label = data.label || 'Error';
+                const probability = data.probability ? (data.probability * 100).toFixed(2) : 'N/A';
 
+                console.log('Etiqueta predicha:', label);
+                console.log('Probabilidad:', probability);
 
-            container.style.backgroundImage = `url("/static/${label}.png")`;
+                resultDiv.innerHTML = `
+                    <p>Etiqueta predicha: ${label}</p>
+                    <p>Exactitud de la clasificación: ${probability}%</p>
+                `;
 
+                console.log('Cambiando fondo a prediccion.png');
+                document.body.style.backgroundImage = "url('/static/prediccion.png')";
 
-            const file = formData.get('file');
-            colibriImage.src = URL.createObjectURL(file);
-            colibriImage.style.display = 'block';
+                // Mostrar la imagen cargada por el usuario
+                const file = formData.get('file');
+                colibriImage.src = URL.createObjectURL(file);
+                colibriImage.style.display = 'block';
 
-            speciesImagesDiv.classList.add('hidden');
-            formularito.classList.add('hidden')
-
-
-            resetButton.classList.remove('hidden');
-        })
-        .catch(error => {
-            document.getElementById('result').innerText = 'Error al procesar la imagen';
+                // Ocultar el formulario y mostrar el botón de reinicio
+                formDiv.classList.add('hidden');
+                resetButton.classList.remove('hidden');
+            })
+            .catch(error => {
+                console.error('Error al procesar la imagen:', error);
+                document.getElementById('result').innerText = 'Error al procesar la imagen';
+            });
         });
-    });
 
-    document.getElementById('resetButton').addEventListener('click', function() {
-        location.reload();
-    });
+        // Funcionalidad para el botón de reinicio
+        document.getElementById('resetButton').addEventListener('click', function() {
+            location.reload();
+        });
     </script>
 </body>
 </html>

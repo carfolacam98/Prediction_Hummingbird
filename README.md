@@ -24,7 +24,7 @@ Esta aplicación predice entre dos clases de colibríes: el **Colibrí Inca vent
 1. **Subir Imagen:**
    - Abre tu navegador web y dirígete a [http://localhost:5000](http://localhost:5000) o en [http://127.0.0.1:5000](http://127.0.0.1:5000).
    - Verás un formulario que te permitirá seleccionar una imagen de un colibrí. Haz clic en el botón "Seleccionar archivo" o "Elegir archivo" para elegir una imagen de tu dispositivo.
-   - Después de seleccionar la imagen, haz clic en el botón "Subir" o "Enviar" para cargar la imagen a la aplicación.
+   - Después de seleccionar la imagen, haz clic en el botón "Clasificar" para cargar la imagen a la aplicación.
    - La aplicación procesará la imagen y mostrará la predicción en la pantalla. Verás el nombre de la especie predicha: **Colibrí Inca ventrivioleta** o **Colibrí picoespada**.
 
 2. **Volver a Predecir:**
