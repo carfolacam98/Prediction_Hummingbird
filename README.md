@@ -4,11 +4,17 @@
 
 Esta aplicación predice entre dos clases de colibríes: el **Colibrí Inca ventrivioleta** y el **Colibrí picoespada**. Ambas especies se encuentran en Colombia. El modelo de clasificación utiliza aprendizaje automático para determinar a qué especie pertenece la imagen del colibrí.
 
+## Requisitos
+
+Para ejecutar la aplicación, necesitas tener Docker instalado en tu máquina. No se requieren dependencias adicionales para el uso básico de la aplicación.
+
+- **Docker:** Asegúrate de tener Docker instalado. Puedes descargarlo e instalarlo desde [Docker](https://www.docker.com/products/docker-desktop).
+
 ## Modo de Uso
 
 1. **Construir el Contenedor Docker**
 
-   Asegúrate de tener Docker instalado en tu PC. Luego, construye la imagen Docker con el siguiente comando:
+   Si cumples los requisitos puedes situarte en la raiz del proyecto y construye la imagen Docker con el siguiente comando:
 
    ```bash
    docker build -t colibri-predictor .
@@ -17,7 +23,7 @@ Esta aplicación predice entre dos clases de colibríes: el **Colibrí Inca vent
     Una vez que la imagen esté construida, ejecuta el contenedor en el puerto 5000 con el siguiente comando:
 
     ```bash
-    docker build -t colibri-predictor .
+    docker run -d -p 5000:5000 --name nombre-del-contenedor colibri-predictor
    ```
 ## Interacción con la Aplicación
 
@@ -30,7 +36,7 @@ Esta aplicación predice entre dos clases de colibríes: el **Colibrí Inca vent
 2. **Volver a Predecir:**
    - Si deseas realizar otra predicción, haz clic en el botón "Volver a predecir" que aparece en la interfaz después de la primera predicción.
    - Esto te permitirá cargar una nueva imagen y obtener una nueva predicción.
-   - 
+   
 ## Configuración de Archivos
 
 - **Modelo:** El modelo preentrenado está en formato `.h5`. Este modelo se encuentra en un proyecto aparte que puedes consultar para seguir entrenando con más colibríes. Puedes encontrar más información y el enlace al proyecto aquí: [Enlace al proyecto](https://github.com/carfolacam98/TrainingModel).
@@ -40,10 +46,12 @@ Esta aplicación predice entre dos clases de colibríes: el **Colibrí Inca vent
   - `main.py`: Archivo principal que implementa la aplicación Flask y define la interfaz de la aplicación.
   - `templates/`: Carpeta que contiene los archivos HTML para la interfaz de usuario. Aquí se encuentran las plantillas que se renderizan en el navegador.
   - `static/`: Carpeta que contiene archivos estáticos como imágenes, CSS y JavaScript que se utilizan en la aplicación.
-  - `preprocess.py`: Archivo que se encarga del procesamiento de imágenes JPEG y la carga del modelo para la predicción.
+  - `preprocess.py`: Archivo que se encarga del procesamiento de imágenes JPEG ò PNG y la carga del modelo para la predicción.
 
-## Requisitos
+## Colaboradoras
 
-Para ejecutar la aplicación, necesitas tener Docker instalado en tu máquina. No se requieren dependencias adicionales para el uso básico de la aplicación.
+Este proyecto fue desarrollado por:
 
-- **Docker:** Asegúrate de tener Docker instalado. Puedes descargarlo e instalarlo desde [Docker](https://www.docker.com/products/docker-desktop).
+- **Angy Patarroyo**
+- **Laura Cárdenas**
+
