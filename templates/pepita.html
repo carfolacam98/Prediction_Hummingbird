@@ -101,10 +101,8 @@
             const resultDiv = document.getElementById('result');
             const colibriImage = document.getElementById('colibriImage');
             resultDiv.innerText = 'Etiqueta predicha: ' + (data.label || 'Error al procesar la imagen') +
-                ', Probabilidad: ' + (data.probability *100 || 'N/A') +"%";
-
-            const file = formData.get('file');
-            colibriImage.src = URL.createObjectURL(file);
+                ', Probabilidad: ' + (data.probability || 'N/A');
+            colibriImage.src = URL.createObjectURL(this.file);
             colibriImage.style.display = 'block';
         })
         .catch(error => {
