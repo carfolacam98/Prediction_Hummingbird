@@ -34,7 +34,8 @@ Esta aplicación predice entre dos clases de colibríes: el **Colibrí Inca vent
 ## Configuración de Archivos
 
 - **Modelo:** El modelo preentrenado está en formato `.h5`. Este modelo se encuentra en un proyecto aparte que puedes consultar para seguir entrenando con más colibríes. Puedes encontrar más información y el enlace al proyecto aquí: [Enlace al proyecto](https://github.com/carfolacam98/TrainingModel).
-
+- **Imágenes Sugeridas:** Para entrenar y probar el modelo, puedes usar las imágenes disponibles en el siguiente enlace de Google Drive. Estas imágenes son adecuadas tanto para el entrenamiento del modelo como para realizar predicciones:
+  - [Imágenes sugeridas](https://drive.google.com/drive/folders/1ulyyqQgHQG-ghzhqOV2JXsf55GbEr02n)
 - **Archivos del Proyecto:**
   - `main.py`: Archivo principal que implementa la aplicación Flask y define la interfaz de la aplicación.
   - `templates/`: Carpeta que contiene los archivos HTML para la interfaz de usuario. Aquí se encuentran las plantillas que se renderizan en el navegador.
